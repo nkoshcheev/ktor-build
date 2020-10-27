@@ -34,6 +34,7 @@ class CoreBuild(private val osJdkEntry: OSJDKEntry) : BuildType({
     requirements {
         require(os = osJdkEntry.osEntry.agentString, minMemoryDB = 7000)
     }
+    publishingBuilds["${osJdkEntry.osEntry.name}${osJdkEntry.jdkEntry.name}"] = this
 })
 
 fun formatArtifactsString(vararg artifacts: String): String {

@@ -29,4 +29,5 @@ class NativeBuild(private val osEntry: OSEntry) : BuildType({
     requirements {
         require(os = osEntry.agentString, minMemoryDB =  7000)
     }
+    publishingBuilds[osEntry.name] = this
 })

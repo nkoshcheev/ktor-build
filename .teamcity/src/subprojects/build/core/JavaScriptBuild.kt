@@ -34,6 +34,7 @@ class JavaScriptBuild(private val JSEntry: JSEntry) : BuildType({
     requirements {
         require(os = "Linux", minMemoryDB = 7000)
     }
+    publishingBuilds[JSEntry.name] = this
 })
 
 private fun GradleBuildStep.setupDockerForJavaScriptTests(JSEntry: JSEntry) {
