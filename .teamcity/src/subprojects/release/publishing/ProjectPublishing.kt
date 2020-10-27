@@ -23,20 +23,6 @@ object ProjectPublishing : Project({
     allBuilds.forEach(::buildType)
 
     buildType {
-        id("KtorPublish_All")
-        name = "Publish All"
-        type = BuildTypeSettings.Type.COMPOSITE
-
-        vcs {
-            root(VCSCore)
-        }
-
-        dependencies {
-            allBuilds.mapNotNull { it.id }.forEach { id ->
-                snapshot(id) {
-                    onDependencyFailure = FailureAction.FAIL_TO_START
-                }
-            }
-        }
+        createCompositeBuild("KtorPublish_All", "Publish All", VCSCore, allBuilds)
     }
 })

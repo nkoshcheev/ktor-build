@@ -56,23 +56,27 @@ object ProjectCore : Project({
     allBuilds.forEach(::buildType)
 
     buildType {
-        id("KtorCore_All")
-        name = "Build All Core"
-        type = BuildTypeSettings.Type.COMPOSITE
+        createCompositeBuild("KtorCore_All", "Build All Core", VCSCore, allBuilds)
+    }
+})
 
-        vcs {
-            root(VCSCore)
-        }
+fun BuildType.createCompositeBuild(buildId: String, buildName: String, vcsRoot: VcsRoot, builds: List<BuildType>) {
+    id(buildId)
+    name = buildName
+    type = BuildTypeSettings.Type.COMPOSITE
 
-        dependencies {
-            allBuilds.mapNotNull { it.id }.forEach { id ->
-                snapshot(id) {
-                    onDependencyFailure = FailureAction.FAIL_TO_START
-                }
+    vcs {
+        root(vcsRoot)
+    }
+
+    dependencies {
+        builds.mapNotNull { it.id }.forEach { id ->
+            snapshot(id) {
+                onDependencyFailure = FailureAction.FAIL_TO_START
             }
         }
     }
-})
+}
 
 fun Requirements.require(os: String, minMemoryDB: Int = -1) {
     contains("teamcity.agent.jvm.os.name", os)
