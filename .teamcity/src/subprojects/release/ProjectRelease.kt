@@ -1,6 +1,7 @@
 package subprojects.release
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.Project
+import subprojects.*
 import subprojects.release.apidocs.ProjectReleaseAPIDocs
 import subprojects.release.publishing.*
 
@@ -8,6 +9,8 @@ object ProjectRelease : Project({
     id("ProjectKtorRelease")
     name = "Release"
     description = "Build configuration that release Ktor"
+
+    vcsRoot(VCSCore)
 
     params {
         param("env.SIGN_KEY_ID", value = "7C30F7B1329DBA87")

@@ -11,8 +11,6 @@ object ProjectPublishing : Project({
     name = "Publishing"
     description = "Publish artifacts to repositories"
 
-    vcsRoot(VCSCore)
-
     val publishingTargets = listOf(
         PublishingTarget("JVM", publishingBuilds["$linux$java11"]),
         PublishingTarget("JavaScript", publishingBuilds["$js"]),
