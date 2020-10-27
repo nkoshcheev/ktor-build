@@ -7,7 +7,7 @@ import subprojects.*
 import subprojects.build.*
 
 class CoreBuild(private val osJdkEntry: OSJDKEntry) : BuildType({
-    id("KtorMatrixCore_${osJdkEntry.osEntry.name}${osJdkEntry.jdkEntry.name}".toExtId())
+    id("KtorMatrix_${osJdkEntry.osEntry.name}${osJdkEntry.jdkEntry.name}".toExtId())
     name = "${osJdkEntry.jdkEntry.name} on ${osJdkEntry.osEntry.name}"
     artifactRules = formatArtifactsString("+:**/build/**/*.jar", junitReportArtifact, memoryReportArtifact)
     vcs {
