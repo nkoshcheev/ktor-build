@@ -12,8 +12,6 @@ object ProjectPublishing : Project({
     name = "Publishing"
     description = "Publish artifacts to repositories"
 
-    vcsRoot(VCSCore)
-
     val publishingEntries = listOf(
         PublishingData("JVM", generatedBuilds["${linux.name}${java11.name}"]!!, listOf("publishJvmPublicationToMavenRepository","publishKotlinMultiplatformPublicationToMavenRepository")),
         PublishingData("JavaScript", generatedBuilds[js.name]!!, listOf("")),
