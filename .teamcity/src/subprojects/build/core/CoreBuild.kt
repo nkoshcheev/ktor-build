@@ -34,7 +34,6 @@ class CoreBuild(private val osJdkEntry: OSJDKEntry) : BuildType({
     requirements {
         require(os = osJdkEntry.osEntry.agentString, minMemoryDB = 7000)
     }
-    println("${osJdkEntry.osEntry.name}${osJdkEntry.jdkEntry.name}")
     generatedBuilds["${osJdkEntry.osEntry.name}${osJdkEntry.jdkEntry.name}"] = this
 })
 
