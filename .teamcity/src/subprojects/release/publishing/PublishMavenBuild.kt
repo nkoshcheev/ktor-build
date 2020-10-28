@@ -4,6 +4,8 @@ import jetbrains.buildServer.configs.kotlin.v10.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.*
 import subprojects.*
+import subprojects.build.core.*
+import kotlin.require
 
 class PublishMavenBuild(private val publishingData: PublishingData) : BuildType({
     id("KtorPublishMavenBuild_${publishingData.buildName}".toExtId())
@@ -23,6 +25,9 @@ class PublishMavenBuild(private val publishingData: PublishingData) : BuildType(
             buildRule = lastSuccessful()
             artifactRules = publishingData.buildData.artifacts
         }
+    }
+    requirements {
+        require(publishingData.operatingSystem)
     }
 })
 

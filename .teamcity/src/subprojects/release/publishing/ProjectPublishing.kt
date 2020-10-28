@@ -5,7 +5,7 @@ import subprojects.*
 import subprojects.build.core.*
 
 data class BuildData(val id: Id, val artifacts: String)
-data class PublishingData(val buildName: String, val buildData: BuildData, val gradleTasks: List<String>)
+data class PublishingData(val buildName: String, val buildData: BuildData, val gradleTasks: List<String>, val operatingSystem: String)
 
 object ProjectPublishing : Project({
     id("ProjectPublishing")
@@ -19,28 +19,28 @@ object ProjectPublishing : Project({
                 "publishJvmPublicationToMavenRepository",
                 "publishKotlinMultiplatformPublicationToMavenRepository",
                 "publishMetadataPublicationToMavenRepository"
-            )
+            ), linux.agentString
         ),
         PublishingData(
             "JavaScript", buildData(js.name),
             listOf(
                 "publishJsPublicationToMavenRepository",
                 "publishMetadataPublicationToMavenRepository"
-            )
+            ), linux.agentString
         ),
         PublishingData(
             "Windows", buildData(windows.name),
             listOf(
                 "publishMingwX64PublicationToMavenRepository",
                 "publishMetadataPublicationToMavenRepository"
-            )
+            ), windows.agentString
         ),
         PublishingData(
             "Linux", buildData(linux.name),
             listOf(
                 "publishLinuxX64PublicationToMavenRepository",
                 "publishMetadataPublicationToMavenRepository"
-            )
+            ), linux.agentString
         ),
         PublishingData(
             "macOS", buildData(macOS.name),
@@ -55,7 +55,7 @@ object ProjectPublishing : Project({
                 "publishWatchosArm64PublicationToMavenRepository",
                 "publishWatchosX86PublicationToMavenRepository",
                 "publishMetadataPublicationToMavenRepository"
-            )
+            ), macOS.agentString
         )
     )
 
