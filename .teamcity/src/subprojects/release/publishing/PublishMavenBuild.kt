@@ -20,11 +20,11 @@ class PublishMavenBuild(private val publishingEntry: PublishingEntry) : BuildTyp
         val buildId = publishingEntry.build?.id ?: throw RuntimeException("Build ID not found for entry ${publishingEntry.name}")
         artifacts(buildId) {
             buildRule = lastSuccessful()
-            artifactRules = stripReportArtifacts(artifactRules)
+            println()
+            artifactRules = stripReportArtifacts(publishingEntry.build.artifactRules)
         }
     }
 })
-
 fun stripReportArtifacts(artifacts: String): String {
     return artifacts.replace("$junitReportArtifact\n", "")
         .replace("$memoryReportArtifact\n", "")
