@@ -5,11 +5,13 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.*
 import subprojects.*
 import subprojects.build.*
+import subprojects.release.publishing.*
 
 class JavaScriptBuild(private val JSEntry: JSEntry) : BuildType({
     id("KtorMatrixJavaScript_${JSEntry.name}".toExtId())
     name = "JavaScript on ${JSEntry.name}"
-    artifactRules = formatArtifacts("+:**/build/**/*.jar", junitReportArtifact, memoryReportArtifact)
+    val artifactsToPublish = "+:**/build/**/*.jar"
+    artifactRules = formatArtifacts(artifactsToPublish, junitReportArtifact, memoryReportArtifact)
     vcs {
         root(VCSCore)
     }
@@ -34,7 +36,7 @@ class JavaScriptBuild(private val JSEntry: JSEntry) : BuildType({
     requirements {
         require(os = "Linux", minMemoryDB = 7000)
     }
-    generatedBuilds[JSEntry.name] = this
+    generatedBuilds[JSEntry.name] = BuildData(this.id!!, artifactsToPublish)
 })
 
 private fun GradleBuildStep.setupDockerForJavaScriptTests(JSEntry: JSEntry) {

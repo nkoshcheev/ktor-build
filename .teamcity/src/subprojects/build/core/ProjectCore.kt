@@ -32,7 +32,7 @@ val stressTests = listOf(
     OSJDKEntry(linux, java8),
     OSJDKEntry(windows, java8))
 
-val generatedBuilds = hashMapOf<String, BuildType>()
+val generatedBuilds = hashMapOf<String, BuildData>()
 
 object ProjectCore : Project({
     id("ProjectKtorCore")

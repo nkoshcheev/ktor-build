@@ -3,29 +3,23 @@ package subprojects.release.publishing
 import jetbrains.buildServer.configs.kotlin.v10.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.*
-import subprojects.build.core.*
-import java.lang.RuntimeException
 
-class PublishMavenBuild(private val publishingEntry: PublishingEntry) : BuildType({
-    id("KtorPublishMavenBuild_${publishingEntry.name}".toExtId())
-    name = "Publish ${publishingEntry.name} to Maven"
+class PublishMavenBuild(private val publishingData: PublishingData) : BuildType({
+    id("KtorPublishMavenBuild_${publishingData.buildName}".toExtId())
+    name = "Publish ${publishingData.buildName} to Maven"
 
     steps {
         gradle {
             name = "Parallel assemble"
-            tasks = publishingEntry.tasks.joinToString(" ")
+            tasks = publishingData.gradleTasks.joinToString(" ")
         }
     }
     dependencies {
-        val buildId = publishingEntry.build?.id ?: throw RuntimeException("Build ID not found for entry ${publishingEntry.name}")
+        val buildId = publishingData.buildData.id
         artifacts(buildId) {
             buildRule = lastSuccessful()
-            println()
-            artifactRules = stripReportArtifacts(publishingEntry.build.artifactRules)
+            artifactRules = publishingData.buildData.artifacts
         }
     }
 })
-fun stripReportArtifacts(artifacts: String): String {
-    return artifacts.replace("$junitReportArtifact\n", "")
-        .replace("$memoryReportArtifact\n", "")
-}
+

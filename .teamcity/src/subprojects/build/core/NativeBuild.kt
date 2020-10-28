@@ -5,11 +5,13 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.BuildType
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.*
 import subprojects.*
 import subprojects.build.*
+import subprojects.release.publishing.*
 
 class NativeBuild(private val osEntry: OSEntry) : BuildType({
     id("KtorMatrixNative_${osEntry.name}".toExtId())
     name = "Native on ${osEntry.name}"
-    artifactRules = formatArtifacts("+:**/build/**/*.klib", junitReportArtifact, memoryReportArtifact)
+    val artifactsToPublish = "+:**/build/**/*.klib"
+    artifactRules = formatArtifacts(artifactsToPublish, junitReportArtifact, memoryReportArtifact)
     vcs {
         root(VCSCore)
     }
@@ -29,5 +31,5 @@ class NativeBuild(private val osEntry: OSEntry) : BuildType({
     requirements {
         require(os = osEntry.agentString, minMemoryDB =  7000)
     }
-    generatedBuilds[osEntry.name] = this
+    generatedBuilds[osEntry.name] = BuildData(this.id!!, artifactsToPublish)
 })
