@@ -13,11 +13,50 @@ object ProjectPublishing : Project({
     description = "Publish artifacts to repositories"
 
     val publishingEntries = listOf(
-        PublishingData("JVM", generatedBuilds["${linux.name}${java11.name}"]!!, listOf("publishJvmPublicationToMavenRepository","publishKotlinMultiplatformPublicationToMavenRepository")),
-        PublishingData("JavaScript", generatedBuilds[js.name]!!, listOf("")),
-        PublishingData("Windows", generatedBuilds[windows.name]!!, listOf("")),
-        PublishingData("Linux", generatedBuilds[linux.name]!!, listOf("")),
-        PublishingData("macOS", generatedBuilds[macOS.name]!!, listOf(""))
+        PublishingData(
+            "JVM", buildData("${linux.name}${java11.name}"),
+            listOf(
+                "publishJvmPublicationToMavenRepository",
+                "publishKotlinMultiplatformPublicationToMavenRepository",
+                "publishMetadataPublicationToMavenRepository"
+            )
+        ),
+        PublishingData(
+            "JavaScript", buildData(js.name),
+            listOf(
+                "publishJsPublicationToMavenRepository",
+                "publishMetadataPublicationToMavenRepository"
+            )
+        ),
+        PublishingData(
+            "Windows", buildData(windows.name),
+            listOf(
+                "publishMingwX64PublicationToMavenRepository",
+                "publishMetadataPublicationToMavenRepository"
+            )
+        ),
+        PublishingData(
+            "Linux", buildData(linux.name),
+            listOf(
+                "publishLinuxX64PublicationToMavenRepository",
+                "publishMetadataPublicationToMavenRepository"
+            )
+        ),
+        PublishingData(
+            "macOS", buildData(macOS.name),
+            listOf(
+                "publishIosArm32PublicationToMavenRepository",
+                "publishIosArm64PublicationToMavenRepository",
+                "publishIosX64PublicationToMavenRepository",
+                "publishMacosX64PublicationToMavenRepository",
+                "publishTvosArm64PublicationToMavenRepository",
+                "publishTvosX64PublicationToMavenRepository",
+                "publishWatchosArm32PublicationToMavenRepository",
+                "publishWatchosArm64PublicationToMavenRepository",
+                "publishWatchosX86PublicationToMavenRepository",
+                "publishMetadataPublicationToMavenRepository"
+            )
+        )
     )
 
     val allBuilds = publishingEntries.map(::PublishMavenBuild)
@@ -28,3 +67,8 @@ object ProjectPublishing : Project({
         createCompositeBuild("KtorPublish_All", "Publish All", VCSCore, allBuilds)
     }
 })
+
+private fun buildData(buildConfiguration: String): BuildData {
+    return generatedBuilds[buildConfiguration]
+        ?: throw RuntimeException("Cannot find build data for $buildConfiguration")
+}
