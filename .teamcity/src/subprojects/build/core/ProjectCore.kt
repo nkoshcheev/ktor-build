@@ -34,12 +34,12 @@ val stressTests = listOf(
 
 val generatedBuilds = hashMapOf<String, BuildType>()
 
-val publishingTargets = listOf(
-    Build("JVM", generatedBuilds["${linux.name}${java11.name}"]),
-    Build("JavaScript", generatedBuilds[js.name]),
-    Build("Windows", generatedBuilds[windows.name]),
-    Build("Linux", generatedBuilds[linux.name]),
-    Build("macOS", generatedBuilds[macOS.name])
+val publishingEntries = listOf(
+    PublishingEntry("JVM", generatedBuilds["${linux.name}${java11.name}"]),
+    PublishingEntry("JavaScript", generatedBuilds[js.name]),
+    PublishingEntry("Windows", generatedBuilds[windows.name]),
+    PublishingEntry("Linux", generatedBuilds[linux.name]),
+    PublishingEntry("macOS", generatedBuilds[macOS.name])
 )
 
 object ProjectCore : Project({

@@ -4,14 +4,14 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import subprojects.*
 import subprojects.build.core.*
 
-data class Build(val name: String, val build: BuildType?)
+data class PublishingEntry(val name: String, val build: BuildType?)
 
 object ProjectPublishing : Project({
     id("ProjectPublishing")
     name = "Publishing"
     description = "Publish artifacts to repositories"
 
-    val allBuilds = publishingTargets.map(::PublishMavenBuild)
+    val allBuilds = publishingEntries.map(::PublishMavenBuild)
 
     allBuilds.forEach(::buildType)
 
