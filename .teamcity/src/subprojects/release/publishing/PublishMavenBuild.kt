@@ -10,6 +10,7 @@ class PublishMavenBuild(private val publishingEntry: PublishingEntry) : BuildTyp
     name = "Publish ${publishingEntry.name} to Maven"
 
     dependencies {
+        println(publishingEntry)
         val buildId = publishingEntry.build?.id ?: throw RuntimeException("Build ID not found for entry ${publishingEntry.name}")
         artifacts(buildId) {
             buildRule = lastSuccessful()

@@ -11,6 +11,14 @@ object ProjectPublishing : Project({
     name = "Publishing"
     description = "Publish artifacts to repositories"
 
+    val publishingEntries = listOf(
+        PublishingEntry("JVM", generatedBuilds["${linux.name}${java11.name}"]),
+        PublishingEntry("JavaScript", generatedBuilds[js.name]),
+        PublishingEntry("Windows", generatedBuilds[windows.name]),
+        PublishingEntry("Linux", generatedBuilds[linux.name]),
+        PublishingEntry("macOS", generatedBuilds[macOS.name])
+    )
+
     val allBuilds = publishingEntries.map(::PublishMavenBuild)
 
     allBuilds.forEach(::buildType)

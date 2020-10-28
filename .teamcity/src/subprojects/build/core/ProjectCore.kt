@@ -34,14 +34,6 @@ val stressTests = listOf(
 
 val generatedBuilds = hashMapOf<String, BuildType>()
 
-val publishingEntries = listOf(
-    PublishingEntry("JVM", generatedBuilds["${linux.name}${java11.name}"]),
-    PublishingEntry("JavaScript", generatedBuilds[js.name]),
-    PublishingEntry("Windows", generatedBuilds[windows.name]),
-    PublishingEntry("Linux", generatedBuilds[linux.name]),
-    PublishingEntry("macOS", generatedBuilds[macOS.name])
-)
-
 object ProjectCore : Project({
     id("ProjectKtorCore")
     name = "Core"
